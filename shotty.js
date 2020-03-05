@@ -4,6 +4,10 @@ const puppeteer = require('puppeteer')
 var port = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
+    var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
+    if (ip != process.env.ALLOWED_IP) {
+        return res.send('BAD_IP_ADDR');
+    }
     if (req.query.url == undefined) {
         return res.send({ error: "BAD_URL" });
     }
