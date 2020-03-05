@@ -1,11 +1,17 @@
 const express = require('express')
-const app = express()
 const puppeteer = require('puppeteer')
+const cors = require('cors')
+
 var port = process.env.PORT || 3000;
+
+const app = express()
+
+app.use(cors())
 
 app.get('/', (req, res) => {
     var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    if (ip != process.env.ALLOWED_IP) {
+    console.log(ip);
+    if (ip != process.env.ALLOWED_IP && ip != '::1') {
         return res.send('BAD_IP_ADDR');
     }
     if (req.query.url == undefined) {
