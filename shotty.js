@@ -1,7 +1,7 @@
 const express = require('express')
 const app = express()
-const port = 3000
 const puppeteer = require('puppeteer')
+var port = process.env.PORT || 3000;
 
 app.get('/', (req, res) => {
     if (req.query.url == undefined) {
@@ -18,7 +18,6 @@ app.get('/', (req, res) => {
             res.send(buffer);
         });
         await browser.close();
-        // res.send('OK');
     })();
 });
 
