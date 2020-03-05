@@ -10,8 +10,8 @@ app.use(cors())
 
 app.get('/', (req, res) => {
     var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress;
-    console.log(ip);
-    if (ip != process.env.ALLOWED_IP && ip != '::1') {
+    var allowedIps = process.env.ALLOWED_IP.split(','); 
+    if (!allowedIps.includes(ip) && ip != '::1') {
         return res.send('BAD_IP_ADDR');
     }
     if (req.query.url == undefined) {
